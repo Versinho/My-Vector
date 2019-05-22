@@ -306,6 +306,7 @@ class vector{
 		 *inserts elements from the initializer list ilist before pos .
 		  Initializer list supports the user of insert as in myList.insert( pos, {1, 2, 3, 4} ) , 
 		  which would insert the elements 1, 2, 3, and 4 in the list before pos , assuming that myList is a list of int . 
+        @param pos position before position to insert a new element 
 		*  @param ilist the list with the objects to insert. 
  		*/
    		sc::iterator<T> insert( sc::iterator<T> pos, std::initializer_list<T> ilist )
