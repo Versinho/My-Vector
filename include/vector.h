@@ -24,9 +24,9 @@ class vector{
 		 *  @param count  the size of the list. 
  		*/
    		vector( size_t count=0 ):
-   			data{ new T[count] },
+   			data{ new T[count*2] },
 			   m_size{ 0 },
-			   m_capacity{ count } 
+			   m_capacity{ count*2 } 
 		    { /*empty*/ }
 
 		/**
@@ -37,7 +37,7 @@ class vector{
    		template< typename InputIt >
    		vector( InputIt first, InputIt last ):
    			m_size{ std::distance( first, last ) },
-   			m_capacity{ m_size }
+   			m_capacity{ m_size*2 }
    		{
    			data = new T[m_capacity];
    			std::copy( first, last, data);
@@ -49,7 +49,7 @@ class vector{
  		*/
       	vector( const vector& other ):
       			m_size{ other.m_size },
-   			m_capacity{ other.m_capacity }
+   			   m_capacity{ other.m_capacity }
    		{
    	 		// [1] Alocar o espaço de dados.
       			data = new T[m_capacity];
@@ -63,7 +63,7 @@ class vector{
  		*/
    		vector( std::initializer_list<T> ilist ):
    			m_size{ ilist.size() },
-   			m_capacity{ m_size }
+   			m_capacity{ 2*m_size }
    		{
    			data = new T[m_capacity];
    			std::copy( ilist.begin(), ilist.end(), data );
@@ -475,7 +475,7 @@ class vector{
    		//=== [VII] Friend functions. 
 
 		/**
-		 *
+		 * extraction operator overload
  		*/
    		friend std::ostream& operator<<( std::ostream& os, const vector& v )
         {
@@ -488,15 +488,16 @@ class vector{
             return os;
         }
 
-		/**
-		 *
- 		*/
-       	friend void swap( vector<T>& A, vector<T>& B )
+       	/*friend void swap( vector<T>& A, vector<T>& B )
        	{
        		for( int i = 0; i < std::min( A.m_size, B.m_size ); i++ )
            		std::swap( A.data[i], B.data[i]);
-       	}
+       	}*/
 };
+
+      /**
+       * Checks if the contents of lhs and rhs are equal, that is, whether lhs.size() == rhs.size() and each element in lhs compares equal with the element in rhs at the same position. 
+      */
       template< typename T>
       bool operator==( const sc::vector<T>& lhs, const sc::vector<T>& rhs )
       {
@@ -514,6 +515,9 @@ class vector{
          return true;
       }
 
+      /**
+       * Similar to the previous operator, but the opposite result.
+      */
       template< typename T>
       bool operator!=( const sc::vector<T>& lhs, const sc::vector<T>& rhs )
       {
