@@ -340,6 +340,54 @@ class vector{
    		}
 
 		/**
+		 * Constructs and insert one element into the underlaying array before the position given by the iterator pos.
+		 * The method returns an iterator to the position of the inserted item.
+		 * TODO: implement using std::allocator
+		 *  @param pos the iterator pointing to the position right after 
+		 *  @param args arguments used to construct one object of type T
+ 		*/
+	 		template< class... Args>
+   		void emplace( sc::iterator<T> pos, Args&&... args )
+   		{
+   			if( m_size == m_capacity )
+   			{
+   				int pos_correct =  pos-begin();
+   				reserve( ( m_capacity == 0 ) ? 1 : (2 * m_capacity) );
+   				pos = begin()+pos_correct;
+   			}
+
+   			auto aux = end();
+   			while( aux != pos )
+   			{
+   				*aux = *(aux-1);
+   				aux--;
+   			}
+
+				*pos = T(std::forward<Args>(args)...);
+   			
+   			m_size++;
+   		}
+
+		/**
+		 * Constructs and insert one element into the end of the underlaying array.
+		 * TODO: implement using std::allocator
+		 *  @param args arguments used to construct one object of type T
+ 		*/
+	 		template< class... Args>
+   		void emplace_back(Args&&... args )
+   		{
+   			if( m_size == m_capacity )
+   			{
+   				reserve( ( m_capacity == 0 ) ? 1 : (2 * m_capacity) );
+   			}
+
+   			auto aux = end();
+				*aux = T(std::forward<Args>(args)...);
+   			
+   			m_size++;
+   		}
+
+		/**
 		 * Requests the removal of unused capacity. It is a non-binding request to reduce capacity() to size() . It depends on the implementation if the request is fulﬁlled. 
  		*/
    		void shrink_to_fit( void )
